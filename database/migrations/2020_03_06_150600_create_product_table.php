@@ -20,6 +20,7 @@ class CreateProductTable extends Migration
             $table->bigInteger("price");
             $table->bigInteger("amount");
             $table->bigInteger("store_id");
+            $table->bigInteger("category_id");
             //
         });
     }
