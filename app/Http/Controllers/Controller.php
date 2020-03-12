@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -16,6 +17,13 @@ class Controller extends BaseController
 
     public function index()
     {
-        return Product_Category::find(1)->products;
+        $users=User::has("store")->get();
+        foreach ($users as $key=>$data){
+            $users[$key]["store"]=$users[$key]->store;
+            $users[$key]["store"]['location']=$users[$key]->store->location;
+        }
+        return response()->json($users,200);
+
+
     }
 }

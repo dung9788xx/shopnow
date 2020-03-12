@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => "Truong Van Dung",
+            'name' => "Trương Văn Dũng",
             'username'=>"admin",
             'address'=>"Luong thien son duong tuyen quang",
             'phone' =>"0914949671",
@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('admin'),
         ]);
         DB::table('users')->insert([
-            'name' => "Truong Van Binh",
+            'name' => "Trương Văn Bình",
             'username'=>"store",
             'address'=>"Luong thien son duong tuyen quang",
             'phone' =>"0368259129",
@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('store'),
         ]);
         DB::table('users')->insert([
-            'name' => "Ha kim Hang",
+            'name' => "Hà Kim Hằng",
             'username'=>"user",
             'address'=>"Lang son",
             'phone' =>"0368259234",
@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('user'),
         ]);
         DB::table('users')->insert([
-            'name' => "Nguyen Van Trung",
+            'name' => "Nguyễn Văn Trung",
             'username'=>"user1",
             'address'=>"Phu tho",
             'phone' =>"036234553",

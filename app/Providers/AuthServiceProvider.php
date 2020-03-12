@@ -27,7 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        Gate::define("deactive_user",function ($user){
+            return $user->level==1?true:false;
+        });
     }
 }

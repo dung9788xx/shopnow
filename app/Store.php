@@ -22,7 +22,7 @@ class Store extends Model
 
     public function location()
     {
-        return $this->belongsTo("App\Location");
+        return $this->belongsTo("App\Location",'location_id');
 
     }
 }

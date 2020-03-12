@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -14,7 +15,12 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        $users=User::has("store")->get();
+        foreach ($users as $key=>$data){
+            $users[$key]["store"]=$users[$key]->store;
+            $users[$key]["store"]['location']=$users[$key]->store->location;
+        }
+        return response()->json($users,200);
     }
 
     /**
