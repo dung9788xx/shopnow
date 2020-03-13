@@ -14,12 +14,16 @@ class StoreTableSeeder extends Seeder
         DB::table('store')->insert([
             'name' => "HangShop",
             'description'=>"Chuyên kinh doanh quần áo giá rẻ",
+            "approval"=>"1",
+            "notification"=>0,
             'user_id'=>3,
             'location_id'=>1,
         ]);
         DB::table('store')->insert([
             'name' => "TrungShop",
             'description'=>"Điện thoại giá rẻ uy tín",
+            "approval"=>"1",
+            "notification"=>0,
             'user_id'=>4,
             'location_id'=>5,
         ]);

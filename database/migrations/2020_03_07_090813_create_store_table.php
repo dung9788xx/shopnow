@@ -17,8 +17,12 @@ class CreateStoreTable extends Migration
             $table->bigIncrements('store_id');
             $table->string("name",255);
             $table->text("description");
+            $table->tinyInteger("approval")->default(0);
+            $table->tinyInteger("notification")->default(0);
+            $table->tinyInteger("blocked")->default(0);
             $table->bigInteger("user_id");
             $table->bigInteger("location_id");
+
         });
     }
 

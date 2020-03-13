@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->tinyInteger("level");
             $table->tinyInteger("active")->default(0);
-            $table->tinyInteger("blocked")->default(0);
             $table->string('api_token', 80)
                 ->unique()
                 ->nullable()

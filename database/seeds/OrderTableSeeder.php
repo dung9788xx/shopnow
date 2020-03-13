@@ -12,7 +12,8 @@ class OrderTableSeeder extends Seeder
     public function run()
     {
         DB::table('order')->insert([
-            'store_id' => "1",
+            'store_id' => 1,
+            'user_id'=>2,
             'shipping_address'=>"So 18 Phuong Tan thinh Thai nguyen",
             'shipping_phone'=>"0914949671",
             'isNotification'=>0,
@@ -20,7 +21,8 @@ class OrderTableSeeder extends Seeder
             'status_id'=>3
         ]);
         DB::table('order')->insert([
-            'store_id' => "1",
+            'store_id' => 1,
+            'user_id'=>2,
             'shipping_address'=>"Cau giay Ha noi",
             'shipping_phone'=>"0914949671",
             'isNotification'=>0,
@@ -28,7 +30,8 @@ class OrderTableSeeder extends Seeder
             'status_id'=>1
         ]);
         DB::table('order')->insert([
-            'store_id' => "2",
+            'store_id' => 2,
+            'user_id' => 5,
             'shipping_address'=>"Quan 1 Thanh pho HCM",
             'shipping_phone'=>"0914949671",
             'isNotification'=>0,

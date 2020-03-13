@@ -22,27 +22,36 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'name' => "Trương Văn Bình",
-            'username'=>"store",
+            'username'=>"user",
             'address'=>"Luong thien son duong tuyen quang",
             'phone' =>"0368259129",
-            'level'=>2,
-            'active'=>1,
-            'password' => Hash::make('store'),
-        ]);
-        DB::table('users')->insert([
-            'name' => "Hà Kim Hằng",
-            'username'=>"user",
-            'address'=>"Lang son",
-            'phone' =>"0368259234",
             'level'=>3,
             'active'=>1,
             'password' => Hash::make('user'),
         ]);
         DB::table('users')->insert([
+            'name' => "Hà Kim Hằng",
+            'username'=>"store1",
+            'address'=>"Lang son",
+            'phone' =>"0368259234",
+            'level'=>2,
+            'active'=>1,
+            'password' => Hash::make('store1'),
+        ]);
+        DB::table('users')->insert([
             'name' => "Nguyễn Văn Trung",
-            'username'=>"user1",
+            'username'=>"store2",
             'address'=>"Phu tho",
             'phone' =>"036234553",
+            'level'=>2,
+            'active'=>1,
+            'password' => Hash::make('store2'),
+        ]);
+        DB::table('users')->insert([
+            'name' => "Nguyen van A",
+            'username'=>"user1",
+            'address'=>"Quan 1 Tp Ho chi minh",
+            'phone' =>"01234569872",
             'level'=>3,
             'active'=>1,
             'password' => Hash::make('user1'),
