@@ -20,6 +20,9 @@ Route::namespace("api")->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/user/deactive/{id}',"UserController@deactive")->middleware("can:deactive_user");
         Route::apiResource("user", "UserController");
+        Route::get("/store/getNewStoreNotification","StoreController@getNewStoreNotification");
+        Route::get("/store/approvalStore/{id}","StoreController@approvalStore");
+        Route::get("/store/blockStore/{id}","StoreController@blockStore");
         Route::apiResource("store","StoreController");
     });
     Route::post('login', "LoginController@login");

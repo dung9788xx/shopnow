@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\Product_Category;
+use App\Store;
 use App\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -17,13 +18,6 @@ class Controller extends BaseController
 
     public function index()
     {
-        $users=User::has("store")->get();
-        foreach ($users as $key=>$data){
-            $users[$key]["store"]=$users[$key]->store;
-            $users[$key]["store"]['location']=$users[$key]->store->location;
-        }
-        return response()->json($users,200);
-
 
     }
 }
