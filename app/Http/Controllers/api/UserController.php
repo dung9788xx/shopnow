@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::where("level","!=",2)->get();
+        return response()->json(User::where("level","!=",2)->get(),200);
     }
 
     /**

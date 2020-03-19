@@ -56,5 +56,23 @@ class UsersTableSeeder extends Seeder
             'active'=>1,
             'password' => Hash::make('user1'),
         ]);
+        DB::table('users')->insert([
+            'name' => "Lê thị Anh",
+            'username'=>"store3",
+            'address'=>"Cầu giấy , Hà nội",
+            'phone' =>"0834555222",
+            'level'=>2,
+            'active'=>1,
+            'password' => Hash::make('store3'),
+        ]);
+        DB::table('users')->insert([
+            'name' => "Hà Thị Hồng",
+            'username'=>"store4",
+            'address'=>"Bắc Giang",
+            'phone' =>"0345679992",
+            'level'=>2,
+            'active'=>1,
+            'password' => Hash::make('store4'),
+        ]);
     }
 }
