@@ -12,7 +12,7 @@ class Order extends Model
 
     public function store()
     {
-        return $this->belongsTo("App\Shop");
+        return $this->belongsTo("App\Store","store_id");
     }
 
     public function detail()

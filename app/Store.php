@@ -25,4 +25,9 @@ class Store extends Model
         return $this->belongsTo("App\Location",'location_id');
 
     }
+
+    public function orders()
+    {
+        return $this->hasMany("App\Order","store_id");
+    }
 }

@@ -24,7 +24,7 @@ class OrderTableSeeder extends Seeder
             'store_id' => 1,
             'user_id'=>2,
             'shipping_address'=>"Cau giay Ha noi",
-            'shipping_phone'=>"0914949671",
+            'shipping_phone'=>"091494425632",
             'isNotification'=>0,
             'date'=>"1/1/2020",
             'status_id'=>1
@@ -33,7 +33,7 @@ class OrderTableSeeder extends Seeder
             'store_id' => 2,
             'user_id' => 5,
             'shipping_address'=>"Quan 1 Thanh pho HCM",
-            'shipping_phone'=>"0914949671",
+            'shipping_phone'=>"034291163",
             'isNotification'=>0,
             'date'=>"21/3/2020",
             'status_id'=>3

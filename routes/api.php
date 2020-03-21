@@ -23,7 +23,9 @@ Route::namespace("api")->group(function () {
         Route::get("/store/getNewStoreNotification","StoreController@getNewStoreNotification");
         Route::get("/store/approvalStore/{id}","StoreController@approvalStore");
         Route::get("/store/blockStore/{id}","StoreController@blockStore");
+        Route::get("/store/getOrders","StoreController@getOrders");
         Route::apiResource("store","StoreController");
+        Route::apiResource("order","OrderController");
     });
     Route::post('login', "LoginController@login");
 

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Order;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class  OrderController extends Controller
 {
@@ -14,7 +17,10 @@ class  OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders=Order::whereHas("store",function (Builder $query){
+            $query->where("user_id",Auth::id());
+        })->get();
+        return  response()->json($orders,200);
     }
 
     /**
@@ -82,4 +88,5 @@ class  OrderController extends Controller
     {
         //
     }
+
 }
