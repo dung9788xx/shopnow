@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product_Image extends Model
 {
+    protected $fillable=["base64"];
     protected $table="product_image";
     protected $primaryKey="image_id";
     public $timestamps=false;
 
     public function product()
     {
-        return $this->belongsTo("App\Product");
+        return $this->belongsTo("App\Product","product_id");
     }
 
 }

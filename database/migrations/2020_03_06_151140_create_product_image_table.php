@@ -16,7 +16,7 @@ class CreateProductImageTable extends Migration
         Schema::create('product_image', function (Blueprint $table) {
             $table->bigIncrements('image_id');
             $table->bigInteger("product_id");
-            $table->text("image_link");
+            $table->longText("base64");
         });
     }
 
