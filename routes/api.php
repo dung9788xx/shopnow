@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::namespace("api")->group(function () {
-//    Route::middleware('auth:api')->group(function () {
+    Route::middleware('auth:api')->group(function () {
         Route::get('/user/deactive/{id}',"UserController@deactive")->middleware("can:deactive_user");
         Route::apiResource("user", "UserController");
         Route::get("/store/getNewStoreNotification","StoreController@getNewStoreNotification");
@@ -28,7 +28,7 @@ Route::namespace("api")->group(function () {
         Route::apiResource("order","OrderController");
         Route::apiResource("product","ProductController");
         Route::apiResource("category","CategoryController");
-//    });
+    });
     Route::post('login', "LoginController@login");
 
 });
