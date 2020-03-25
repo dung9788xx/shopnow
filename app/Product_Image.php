@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product_Image extends Model
 {
-    protected $fillable=["base64"];
+    protected $fillable=["image_name"];
     protected $table="product_image";
     protected $primaryKey="image_id";
     public $timestamps=false;

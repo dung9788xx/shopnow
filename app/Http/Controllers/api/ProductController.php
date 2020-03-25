@@ -26,7 +26,24 @@ class ProductController extends Controller
     }
         return response()->json($products,200);
     }
+    protected function saveImgBase64($param, $folder,$name)
+    {
+        list($extension, $content) = explode(';', $param);
+        $tmpExtension = explode('/', $extension);
+        $fileName = sprintf($name, $tmpExtension[1]);
+        $content = explode(',', $content)[1];
+        $storage = Storage::disk('public');
 
+        $checkDirectory = $storage->exists($folder);
+
+        if (!$checkDirectory) {
+            $storage->makeDirectory($folder);
+        }
+
+        $storage->put($folder . '/' . $fileName, base64_decode($content), 'public');
+
+        return $fileName;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -45,24 +62,24 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $produt=new Product;
-        $produt->name=request("name");
-        $produt->description=request("description");
-        $produt->price=\request("price");
-        $produt->amount=\request("amount");
-        $produt->category_id=\request("category_id");
-        if(Auth::user()->store->products()->save($produt)){
+        $product=new Product;
+        $product->name=request("name");
+        $product->description=request("description");
+        $product->price=\request("price");
+        $product->amount=\request("amount");
+        $product->category_id=\request("category_id");
+        if(Auth::user()->store->products()->save($product)){
             if(\request("img1")){
-                $produt->images()->save(new Product_Image(["base64"=>\request("img1")]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img1"),"productimage/".$product->product_id."/",1)]));
             }
             if(\request("img2")){
-                $produt->images()->save(new Product_Image(["base64"=>\request("img2")]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img2"),"productimage/".$product->product_id."/",2)]));
             }
             if(\request("img3")){
-                $produt->images()->save(new Product_Image(["base64"=>\request("img3")]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img3"),"productimage/".$product->product_id."/",3)]));
             }
             if(\request("img4")){
-                $produt->images()->save(new Product_Image(["base64"=>\request("img4")]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img4"),"productimage/".$product->product_id."/",4)]));
             }
             return  response()->json("OK",200);
 
@@ -70,6 +87,7 @@ class ProductController extends Controller
             return  response()->json("Error",404);
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -101,7 +119,31 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->name=request("name");
+        $product->description=request("description");
+        $product->price=\request("price");
+        $product->amount=\request("amount");
+        $product->category_id=\request("category_id");
+        if($product->save()){
+            $product->images()->delete();
+            Storage::deleteDirectory("public/productimage/".$product->product_id);
+            if(\request("img1")){
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img1"),"productimage/".$product->product_id."/",1)]));
+            }
+            if(\request("img2")){
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img2"),"productimage/".$product->product_id."/",2)]));
+            }
+            if(\request("img3")){
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img3"),"productimage/".$product->product_id."/",3)]));
+            }
+            if(\request("img4")){
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img4"),"productimage/".$product->product_id."/",4)]));
+            }
+            return  response()->json("OK",200);
+
+        }else{
+            return  response()->json("Error",404);
+        }
     }
 
     /**

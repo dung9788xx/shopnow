@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Controller extends BaseController
 {
@@ -18,6 +19,11 @@ class Controller extends BaseController
 
     public function index()
     {
-        return view("welcome");
+        $rp=Storage::deleteDirectory("public/productimage/5/");
+        if(Storage::exists("public/productimage/5/")){
+            echo "ok";
+        }else echo 'no';
+        dd($rp);
     }
+
 }
