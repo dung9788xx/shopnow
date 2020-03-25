@@ -20,18 +20,10 @@ class ProductTableSeeder extends Seeder
             "category_id"=>1
         ]);
         DB::table('product')->insert([
-            'name' => "Áo sơ",
-            'description'=>"Áo khoác mùa đông mỏng nhẹ giá rẻ",
+            'name' => "Áo sơ mi",
+            'description'=>"Thiết kế trẻ trung năng động",
             'price'=>250000,
             'amount'=>100,
-            "store_id"=>1,
-            "category_id"=>1
-        ]);
-        DB::table('product')->insert([
-            'name' => "Quần bò",
-            'description'=>"Quàn đẹp giá rẻ",
-            'price'=>350000,
-            'amount'=>150,
             "store_id"=>1,
             "category_id"=>1
         ]);

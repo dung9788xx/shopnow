@@ -20,5 +20,8 @@ class OrderStatusTableSeeder extends Seeder
         DB::table('order_status')->insert([
             'name' => "Đã nhận hàng",
         ]);
+        DB::table('order_status')->insert([
+            'name' => "Đợn hàng bị hủy",
+        ]);
     }
 }

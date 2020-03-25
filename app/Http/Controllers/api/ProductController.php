@@ -19,7 +19,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products=Auth::user()->store->products;
+        foreach($products as $key=>$data){
+            $products[$key]["category"]=$products[$key]->category;
+            $products[$key]["images"]=$products[$key]->images;
+    }
+        return response()->json($products,200);
     }
 
     /**
