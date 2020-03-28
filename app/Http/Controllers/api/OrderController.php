@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Order;
+use App\Store;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,9 @@ class  OrderController extends Controller
     {
         $orders=Order::whereHas("store",function (Builder $query){
             $query->where("user_id",Auth::id());
-        })->get();
+        })->with(["detail","status"])->get();
+        return  response()->json($orders,200);
+
         return  response()->json($orders,200);
     }
 
@@ -87,6 +90,21 @@ class  OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getNewOrderNotification()
+    {
+        $newOrderCount=Order::whereHas("store",function ($query){
+            $query->where("user_id",Auth::id());
+        })->where("isNotification",0)->count();
+        $orders=Order::whereHas("store",function ($query){
+            $query->where("user_id",Auth::id());
+        })->where("isNotification",0)->get();
+        foreach ($orders as $order){
+            $order->isNotification=1;
+            $order->save();
+        }
+        return  response()->json(["count"=>$newOrderCount],200);
     }
 
 }

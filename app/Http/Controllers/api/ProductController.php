@@ -26,16 +26,15 @@ class ProductController extends Controller
     }
         return response()->json($products,200);
     }
-    protected function saveImgBase64($param, $folder,$name)
+    protected function saveImgBase64($param, $folder)
     {
         list($extension, $content) = explode(';', $param);
         $tmpExtension = explode('/', $extension);
-        $fileName = sprintf($name, $tmpExtension[1]);
+        preg_match('/.([0-9]+) /', microtime(), $m);
+        $fileName = sprintf('img%s%s.%s', date('YmdHis'), $m[1], $tmpExtension[1]);
         $content = explode(',', $content)[1];
         $storage = Storage::disk('public');
-
         $checkDirectory = $storage->exists($folder);
-
         if (!$checkDirectory) {
             $storage->makeDirectory($folder);
         }
@@ -70,16 +69,16 @@ class ProductController extends Controller
         $product->category_id=\request("category_id");
         if(Auth::user()->store->products()->save($product)){
             if(\request("img1")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img1"),"productimage/".$product->product_id."/",1)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img1"),"productimage/".$product->product_id."/")]));
             }
             if(\request("img2")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img2"),"productimage/".$product->product_id."/",2)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img2"),"productimage/".$product->product_id."/")]));
             }
             if(\request("img3")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img3"),"productimage/".$product->product_id."/",3)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img3"),"productimage/".$product->product_id."/")]));
             }
             if(\request("img4")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img4"),"productimage/".$product->product_id."/",4)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img4"),"productimage/".$product->product_id."/")]));
             }
             return  response()->json("OK",200);
 
@@ -128,16 +127,16 @@ class ProductController extends Controller
             $product->images()->delete();
             Storage::deleteDirectory("public/productimage/".$product->product_id);
             if(\request("img1")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img1"),"productimage/".$product->product_id."/",1)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img1"),"productimage/".$product->product_id."/")]));
             }
             if(\request("img2")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img2"),"productimage/".$product->product_id."/",2)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img2"),"productimage/".$product->product_id."/")]));
             }
             if(\request("img3")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img3"),"productimage/".$product->product_id."/",3)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img3"),"productimage/".$product->product_id."/")]));
             }
             if(\request("img4")){
-                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img4"),"productimage/".$product->product_id."/",4)]));
+                $product->images()->save(new Product_Image(["image_name"=>$this->saveImgBase64(\request("img4"),"productimage/".$product->product_id."/")]));
             }
             return  response()->json("OK",200);
 
@@ -156,4 +155,20 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function deavtive($id)
+    {
+        $product=Product::find(1);
+        if($product!=null){
+            $product->isSelling==1?$product->isSelling=0:$product->isSelling=1;
+            if($product->save()){
+                return response()->json("OK",200);
+            }
+        }else{
+            return response()->json("error",404);
+        }
+
+    }
+
+
 }

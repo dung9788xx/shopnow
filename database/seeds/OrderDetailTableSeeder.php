@@ -19,6 +19,13 @@ class OrderDetailTableSeeder extends Seeder
             'quantity'=>1
         ]);
         DB::table('order_detail')->insert([
+            'order_id' => 1,
+            'product_id'=>2,
+            'name'=>"Quần bò",
+            'price'=>250000,
+            'quantity'=>1
+        ]);
+        DB::table('order_detail')->insert([
             'order_id' => 2,
             'product_id'=>3,
             'name'=>"Quần bò",
@@ -28,7 +35,7 @@ class OrderDetailTableSeeder extends Seeder
         DB::table('order_detail')->insert([
             'order_id' => 3,
             'product_id'=>4,
-            'name'=>"25000000",
+            'name'=>"Iphone X",
             'price'=>25000000,
             'quantity'=>1
         ]);
