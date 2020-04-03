@@ -153,7 +153,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if($product!=null){
+            Storage::deleteDirectory("public/productimage/".$product->product_id);
+            $product->images()->delete();
+            $product->delete();
+
+            return response()->json("OK",200);
+        }else
+            return response()->json("NotFound",404);
     }
 
     public function deavtive($id)

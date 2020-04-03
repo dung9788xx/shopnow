@@ -20,7 +20,7 @@ class  OrderController extends Controller
     {
         $orders=Order::whereHas("store",function (Builder $query){
             $query->where("user_id",Auth::id());
-        })->with(["detail","status"])->get();
+        })->with(["detail","status","user"])->get();
         return  response()->json($orders,200);
 
         return  response()->json($orders,200);

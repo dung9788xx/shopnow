@@ -21,17 +21,12 @@ class Controller extends BaseController
 
     public function index()
     {
-        $newOrderCount=Order::whereHas("store",function ($query){
+        $orders=Order::whereHas("store",function (Builder $query){
             $query->where("user_id",3);
-        })->where("isNotification",0)->count();
-        $orders=Order::whereHas("store",function ($query){
-            $query->where("user_id",3);
-        })->where("isNotification",0)->get();
-        foreach ($orders as $order){
-            $order->isNotification=1;
-            $order->save();
-        }
-        return  response()->json(["count"=>$newOrderCount],200);
+        })->with(["detail","status","user"])->get();
+        return  response()->json($orders,200);
+
+        return  response()->json($orders,200);
     }
 
 }
