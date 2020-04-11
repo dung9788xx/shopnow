@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Product;
 use App\Product_Category;
+use App\Repositories\UserRepository;
 use App\Store;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,15 +19,14 @@ use Illuminate\Support\Facades\Storage;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
+    private $userRepository;
+    public function __construct(UserRepository $userRepository)
+    {
+       $this->userRepository=$userRepository;
+    }
     public function index()
     {
-        $orders=Order::whereHas("store",function (Builder $query){
-            $query->where("user_id",3);
-        })->with(["detail","status","user"])->get();
-        return  response()->json($orders,200);
-
-        return  response()->json($orders,200);
+      return $this->userRepository->all();
     }
 
 }

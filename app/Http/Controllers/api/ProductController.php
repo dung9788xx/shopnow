@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Product;
 use App\Product_Image;
 use App\Store;
+use App\Exceptions\ApiException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -175,6 +176,13 @@ class ProductController extends Controller
             return response()->json("error",404);
         }
 
+    }
+    public function getProductForSlider()
+    {
+        $products=Product::with("images")->get()->random(3)->map(function ($product){
+            return ["product_id"=>$product->product_id,"productName"=>$product->name,"imageUrl"=>$product->images[0]->image_name];
+        });
+        return response()->json($products,200);
     }
 
 

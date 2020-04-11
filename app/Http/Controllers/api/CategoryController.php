@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Product_Category;
 use App\Product_Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -37,7 +38,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        $category=new Product_Category();
+
     }
 
     /**
@@ -83,5 +85,22 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+    protected function saveImgBase64($param, $folder,$category_id)
+    {
+        list($extension, $content) = explode(';', $param);
+        $tmpExtension = explode('/', $extension);
+        preg_match('/.([0-9]+) /', microtime(), $m);
+        $fileName = $category_id.".".$tmpExtension[1];
+        $content = explode(',', $content)[1];
+        $storage = Storage::disk('public');
+        $checkDirectory = $storage->exists($folder);
+        if (!$checkDirectory) {
+            $storage->makeDirectory($folder);
+        }
+
+        $storage->put($folder . '/' . $fileName, base64_decode($content), 'public');
+
+        return $fileName;
     }
 }
