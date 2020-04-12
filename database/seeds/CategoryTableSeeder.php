@@ -12,16 +12,21 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
         DB::table('product_category')->insert([
-            'name' => "Thời trang"
+            'name' => "Thời trang",
+            'detail'=>"Quần áo nam nữ, phụ kiện thời trang"
         ]);
         DB::table('product_category')->insert([
-            'name' => "Điện thoại"
+            'name' => "Điện thoại",
+            "detail"=>"Các sản phẩm điện thoại, máy tính bảng"
         ]);
         DB::table('product_category')->insert([
-            'name' => "Đồ gia dụng"
+            'name' => "Đồ gia dụng",
+            "detail"=>"Các đồ gia dụng thiết yếu cho gia đình"
+
         ]);
         DB::table('product_category')->insert([
-            'name' => "Đồ ăn"
+            'name' => "Đồ ăn",
+            "detail"=>"Đồ ăn nhanh, thực phẩm, bánh kẹo cho bạn"
         ]);
 
 

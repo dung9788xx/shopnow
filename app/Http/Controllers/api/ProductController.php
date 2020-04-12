@@ -5,11 +5,12 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\Product_Image;
-use App\Store;
+use Illuminate\Support\Arr;
 use App\Exceptions\ApiException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use function Sodium\add;
 
 class ProductController extends Controller
 {
@@ -96,7 +97,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+            $products["category"]=$product->category;
+            $products["images"]=$product->images;
+            $product["store"]=$product->store;
+        return response()->json($product,200);
     }
 
     /**
@@ -183,6 +187,16 @@ class ProductController extends Controller
             return ["product_id"=>$product->product_id,"productName"=>$product->name,"imageUrl"=>$product->images[0]->image_name];
         });
         return response()->json($products,200);
+    }
+    public function getImageById($id)
+    {
+        $products=Product::with("images")->find($id);
+        $image=null;
+        foreach ($products->images as $key=>$data){
+            $image[$key]["product_id"]=$id;
+            $image[$key]["imageUrl"]=$data->image_name;
+        }
+        return response()->json($image,200);
     }
 
 

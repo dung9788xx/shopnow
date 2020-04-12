@@ -27,6 +27,7 @@ Route::namespace("api")->group(function () {
         Route::apiResource("store","StoreController");
         Route::get("/order/getNewOrderNotification","OrderController@getNewOrderNotification");
         Route::apiResource("order","OrderController");
+        Route::get('/product/getImageById/{id}',"ProductController@getImageById");
         Route::get('/product/getProductForSlider',"ProductController@getProductForSlider");
         Route::get('/product/deactive/{id}', "ProductController@deavtive");
         Route::apiResource("product","ProductController");

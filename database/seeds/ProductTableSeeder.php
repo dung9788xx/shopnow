@@ -37,7 +37,7 @@ class ProductTableSeeder extends Seeder
         ]);
         DB::table('product')->insert([
             'name' => "Galaxy S20",
-            'description'=>"Iphone X sách tay giá rẻ",
+            'description'=>"Mẫu mới nhất của điện thoại samsung được ra mắt vào đầu năm 2020 với thiết kế trẻ trung đầy phong độ. ",
             'price'=>1500000,
             'amount'=>100,
             "store_id"=>2,
