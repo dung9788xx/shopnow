@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\Product_Category;
 use App\Product_Image;
 use Illuminate\Support\Arr;
 use App\Exceptions\ApiException;
@@ -187,6 +188,17 @@ class ProductController extends Controller
             return ["product_id"=>$product->product_id,"productName"=>$product->name,"imageUrl"=>$product->images[0]->image_name];
         });
         return response()->json($products,200);
+    }
+
+    public function getProductByCategory($id)
+    {
+        $products=Product_Category::findOrFail($id)->products;
+        foreach($products as $key=>$data){
+            $products[$key]["category"]=$products[$key]->category;
+            $products[$key]["images"]=$products[$key]->images;
+        }
+        return response()->json($products,200);
+
     }
     public function getImageById($id)
     {
