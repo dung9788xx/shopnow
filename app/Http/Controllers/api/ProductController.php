@@ -200,6 +200,16 @@ class ProductController extends Controller
         return response()->json($products,200);
 
     }
+
+    public function getProductByName($name)
+    {
+        $products=Product::where("name","LIKE",'%'.$name.'%')->get();
+        foreach($products as $key=>$data){
+            $products[$key]["category"]=$products[$key]->category;
+            $products[$key]["images"]=$products[$key]->images;
+        }
+        return response()->json($products,200);
+    }
     public function getImageById($id)
     {
         $products=Product::with("images")->find($id);
