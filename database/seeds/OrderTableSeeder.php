@@ -16,7 +16,7 @@ class OrderTableSeeder extends Seeder
             'user_id'=>2,
             'shipping_address'=>"So 18 Phuong Tan thinh Thai nguyen",
             'shipping_phone'=>"0914949671",
-            'isNotification'=>0,
+            'isNotification'=>1,
             'date'=>"21/2/2020",
             'status_id'=>3
         ]);

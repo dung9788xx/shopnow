@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Cart_Detail extends Model
 {
     protected $table="cart_detail";
-    protected $primaryKey="cart_id";
+    protected $primaryKey=["cart_id","product_id"];
     public $timestamps=false;
+    public $incrementing=false;
 
     public function cart()
     {

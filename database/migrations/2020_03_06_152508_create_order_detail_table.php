@@ -20,9 +20,9 @@ class CreateOrderDetailTable extends Migration
             $table->string("name",255);
             $table->bigInteger("price");
             $table->integer("quantity");
+            $table->text("note")->default("");
         });
     }
-
     /**
      * Reverse the migrations.
      *

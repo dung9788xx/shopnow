@@ -24,6 +24,7 @@ Route::namespace("api")->group(function () {
         Route::get("/store/approvalStore/{id}","StoreController@approvalStore");
         Route::get("/store/blockStore/{id}","StoreController@blockStore");
         Route::get("/store/getOrders","StoreController@getOrders");
+        Route::get("/store/getProductById/{id}","StoreController@getProductById");
         Route::apiResource("store","StoreController");
         Route::get("/order/getNewOrderNotification","OrderController@getNewOrderNotification");
         Route::apiResource("order","OrderController");
@@ -34,6 +35,8 @@ Route::namespace("api")->group(function () {
         Route::get('/product/deactive/{id}', "ProductController@deavtive");
         Route::apiResource("product","ProductController");
         Route::apiResource("category","CategoryController");
+        Route::get('/cart/getCartByUserId/{id}', "CartController@getCartByUserId");
+        Route::apiResource("cart","CartController");
     });
     Route::post('login', "LoginController@login");
 

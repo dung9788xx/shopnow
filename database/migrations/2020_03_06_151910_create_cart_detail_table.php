@@ -14,9 +14,11 @@ class CreateCartDetailTable extends Migration
     public function up()
     {
         Schema::create('cart_detail', function (Blueprint $table) {
-            $table->bigIncrements('cart_id');
+            $table->bigInteger('cart_id');
             $table->bigInteger("product_id");
+            $table->index(["cart_id","product_id"]);
             $table->integer("quantity");
+            $table->text("note")->default("");
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Product;
 use App\Store;
 use App\User;
 use Illuminate\Http\Request;
@@ -121,4 +122,13 @@ class StoreController extends Controller
         return response()->json("", 404);
     }
 
+    public function getProductById($id)
+    {
+        $products=Store::findOrFail($id)->products;
+        foreach($products as $key=>$data){
+            $products[$key]["category"]=$products[$key]->category;
+            $products[$key]["images"]=$products[$key]->images;
+        }
+        return response()->json($products,200);
+    }
 }

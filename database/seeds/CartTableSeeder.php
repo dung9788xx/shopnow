@@ -12,7 +12,7 @@ class CartTableSeeder extends Seeder
     public function run()
     {
         DB::table('cart')->insert([
-            'user_id' => 3
+            'user_id' => 2
         ]);
 
     }

@@ -12,8 +12,14 @@ class CartDetailTableSeeder extends Seeder
     public function run()
     {
         DB::table('cart_detail')->insert([
+            'cart_id'=>1,
             'product_id' => 3,
             'quantity'=>2
+        ]);
+        DB::table('cart_detail')->insert([
+            'cart_id'=>1,
+            'product_id' => 1,
+            'quantity'=>1
         ]);
     }
 }

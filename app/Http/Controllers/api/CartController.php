@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Cart;
 use App\Http\Controllers\Controller;
+use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -46,7 +49,21 @@ class CartController extends Controller
      */
     public function show($id)
     {
-        //
+
+    }
+
+    public function getCartByUserId($id)
+    {
+        $cart=Cart::where("user_id",$id)->firstOrFail();
+        $cart["detail"]=$cart->detail;
+        foreach ($cart->detail as $key=>$data){
+            $cart->detail[$key]["product"]=Product::find($cart->detail[$key]->product_id);
+            $cart->detail[$key]["product"]["images"]=Product::find($cart->detail[$key]->product_id)->images[0];
+            $cart->detail->makeHidden(["product_id"]);
+        }
+
+        return  response()->json($cart,200);
+
     }
 
     /**

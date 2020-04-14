@@ -184,7 +184,7 @@ class ProductController extends Controller
     }
     public function getProductForSlider()
     {
-        $products=Product::with("images")->get()->random(3)->map(function ($product){
+        $products=Product::with("images")->where("isSelling",1)->inRandomOrder()->limit(3)->get()->map(function ($product){
             return ["product_id"=>$product->product_id,"productName"=>$product->name,"imageUrl"=>$product->images[0]->image_name];
         });
         return response()->json($products,200);
