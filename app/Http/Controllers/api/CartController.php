@@ -7,6 +7,7 @@ use App\Cart_Detail;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\User;
+use  Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -133,13 +134,15 @@ class CartController extends Controller
     public function updateCart()
     {
         $cart = Cart::where("user_id", Auth::id())->get()[0];
+        $cart_details=is_array(\request("data"))?\request("data"):json_decode(\request("data"),true);
         $cart->detail()->delete();
-        if(count(\request("data"))>0){
-        foreach (\request("data") as $key => $data) {
+        if(count($cart_details)>0){
+        foreach ($cart_details as $key => $data) {
             $cart->detail()->save(new Cart_Detail($data));
         }}else{
             $cart->delete();
         }
+
         return response()->json("OK",200);
     }
 }
