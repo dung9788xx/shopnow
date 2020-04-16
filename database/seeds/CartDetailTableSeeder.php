@@ -19,7 +19,9 @@ class CartDetailTableSeeder extends Seeder
         DB::table('cart_detail')->insert([
             'cart_id'=>1,
             'product_id' => 1,
-            'quantity'=>1
+            'quantity'=>1,
+            'note'=>'Cỡ XL, màu đen'
+
         ]);
     }
 }

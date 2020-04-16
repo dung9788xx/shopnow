@@ -18,7 +18,7 @@ class CreateCartDetailTable extends Migration
             $table->bigInteger("product_id");
             $table->index(["cart_id","product_id"]);
             $table->integer("quantity");
-            $table->text("note")->default("");
+            $table->text("note")->default("")->nullable();
         });
     }
 

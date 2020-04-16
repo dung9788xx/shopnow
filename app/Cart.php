@@ -9,6 +9,7 @@ class Cart extends Model
     protected $table="cart";
     protected $primaryKey="cart_id";
     public $timestamps=false;
+    protected $fillable=["user_id"];
 
     public function user()
     {
@@ -17,6 +18,6 @@ class Cart extends Model
 
     public function detail()
     {
-        return $this->hasMany("App\Cart_Detail","cart_id");
+        return $this->hasMany("App\Cart_Detail","cart_id","cart_id");
     }
 }

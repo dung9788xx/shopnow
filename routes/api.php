@@ -35,7 +35,9 @@ Route::namespace("api")->group(function () {
         Route::get('/product/deactive/{id}', "ProductController@deavtive");
         Route::apiResource("product","ProductController");
         Route::apiResource("category","CategoryController");
-        Route::get('/cart/getCartByUserId/{id}', "CartController@getCartByUserId");
+        Route::get('/cart/getCartByUserId', "CartController@getCartByUserId");
+        Route::post('/cart/updateCart', "CartController@updateCart");
+        Route::post('/cart/addProductToCart', "CartController@addProductToCart");
         Route::apiResource("cart","CartController");
     });
     Route::post('login', "LoginController@login");
