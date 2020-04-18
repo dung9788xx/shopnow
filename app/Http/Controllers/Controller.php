@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Product;
 use App\Product_Category;
+use App\Province;
 use App\Repositories\UserRepository;
 use App\Store;
 use App\User;
@@ -26,7 +27,15 @@ class Controller extends BaseController
     }
     public function index()
     {
-      return $this->userRepository->all();
+        $users=User::has("store")->get();
+        foreach ($users as $key=>$data){
+            $users[$key]["store"]=$users[$key]->store;
+            $users[$key]["location"]=$data->location;
+            $users[$key]["location"]["province"]=$data->location->province;
+            $users[$key]["location"]["district"]=$data->location->district;
+            $users[$key]["location"]["ward"]=$data->location->ward;
+        }
+        return response()->json($users,200);
     }
 
 }

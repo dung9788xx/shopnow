@@ -16,16 +16,14 @@ class StoreTableSeeder extends Seeder
             'description'=>"Chuyên kinh doanh quần áo giá rẻ",
             "approval"=>"1",
             "notification"=>1,
-            'user_id'=>3,
-            'location_id'=>1,
+            'user_id'=>3
         ]);
         DB::table('store')->insert([
             'name' => "TrungShop",
             'description'=>"Điện thoại giá rẻ uy tín",
             "approval"=>"1",
             "notification"=>1,
-            'user_id'=>4,
-            'location_id'=>5,
+            'user_id'=>4
         ]);
         DB::table('store')->insert([
             'name' => "BabyShop",
@@ -33,16 +31,14 @@ class StoreTableSeeder extends Seeder
             "approval"=>"1",
             "notification"=>1,
             "blocked"=>1,
-            'user_id'=>6,
-            'location_id'=>4,
+            'user_id'=>6
         ]);
         DB::table('store')->insert([
             'name' => "BacGiangFood",
             'description'=>"Món ngon hương vị bắc giang",
             "approval"=>"0",
             "notification"=>1,
-            'user_id'=>7,
-            'location_id'=>6,
+            'user_id'=>7
         ]);
     }
 }

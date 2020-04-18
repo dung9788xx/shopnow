@@ -10,8 +10,18 @@ class Location extends Model
     protected $primaryKey="location_id";
     public $timestamps=false;
 
-    public function stores()
+    public function province()
     {
-        return $this->hasMany("App\Store","location_id");
+        return $this->hasOne("App\Province","province_id","province_id");
+    }
+
+    public function district()
+    {
+        return $this->hasOne("App\District","district_id","district_id");
+    }
+
+    public function ward()
+    {
+        return $this->hasOne("App\Ward","id","ward_id","ward_id");
     }
 }

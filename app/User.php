@@ -10,26 +10,7 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     use Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     public $timestamps=false;
-
     public function create_Token()
     {
 
@@ -38,10 +19,10 @@ class User extends Authenticatable
         $this->save();
         return $token;
     }
-    public function deactive(){
-        $this->active==1?$this->active=0:$this->active=1;
-        $this->save();
-    }
+//    public function deactive(){
+//        $this->active==1?$this->active=0:$this->active=1;
+//        $this->save();
+//    }
 
     public function store()
     {
@@ -51,6 +32,12 @@ class User extends Authenticatable
     public function cart()
     {
        return $this->hasOne("App\Cart","user_id");
+    }
+
+    public function location()
+    {
+        return $this->hasOne("App\Location",'location_id');
+
     }
 
 

@@ -20,7 +20,10 @@ class StoreController extends Controller
         $users=User::has("store")->get();
         foreach ($users as $key=>$data){
             $users[$key]["store"]=$users[$key]->store;
-            $users[$key]["store"]['location']=$users[$key]->store->location;
+            $users[$key]["location"]=$data->location;
+            $users[$key]["location"]["province"]=$data->location->province;
+            $users[$key]["location"]["district"]=$data->location->district;
+            $users[$key]["location"]["ward"]=$data->location->ward;
         }
         return response()->json($users,200);
     }

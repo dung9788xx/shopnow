@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Trương Văn Dũng",
             'username'=>"admin",
-            'address'=>"Luong thien son duong tuyen quang",
+            'location_id'=>1,
             'phone' =>"0914949671",
             'level'=>1,
             'active'=>1,
@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Trương Văn Bình",
             'username'=>"user",
-            'address'=>"Luong thien son duong tuyen quang",
+            'location_id'=>2,
             'phone' =>"0368259129",
             'level'=>3,
             'active'=>1,
@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Hà Kim Hằng",
             'username'=>"store1",
-            'address'=>"Lang son",
+            'location_id'=>3,
             'phone' =>"0368259234",
             'level'=>2,
             'active'=>1,
@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Nguyễn Văn Trung",
             'username'=>"store2",
-            'address'=>"Phu tho",
+            'location_id'=>4,
             'phone' =>"036234553",
             'level'=>2,
             'active'=>1,
@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Nguyen van A",
             'username'=>"user1",
-            'address'=>"Quan 1 Tp Ho chi minh",
+            'location_id'=>5,
             'phone' =>"01234569872",
             'level'=>3,
             'active'=>1,
@@ -59,7 +59,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Lê thị Anh",
             'username'=>"store3",
-            'address'=>"Cầu giấy , Hà nội",
+            'location_id'=>6,
             'phone' =>"0834555222",
             'level'=>2,
             'active'=>1,
@@ -68,7 +68,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Hà Thị Hồng",
             'username'=>"store4",
-            'address'=>"Bắc Giang",
+            'location_id'=>7,
             'phone' =>"0345679992",
             'level'=>2,
             'active'=>1,

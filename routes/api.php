@@ -41,5 +41,9 @@ Route::namespace("api")->group(function () {
         Route::apiResource("cart","CartController");
     });
     Route::post('login', "LoginController@login");
+    Route::get('/province/getProvince',"AddressController@getProvine");
+    Route::get('/province/getDistrictByProvince/{id}',"AddressController@getDistrictByProvince");
+    Route::get('/province/getWardByDistrict/{id}',"AddressController@getWardByDistrict");
+
 
 });

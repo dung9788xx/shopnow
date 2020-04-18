@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,6 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+
         $this->call(UsersTableSeeder::class);
         $this->call(StoreTableSeeder::class);
         $this->call(LocationTableSeeder::class);
@@ -23,6 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(OrderStatusTableSeeder::class);
         $this->call(OrderTableSeeder::class);
         $this->call(ProductImageTableSeed::class);
-
+        DB::unprepared(Storage::disk("public")->get("AddressInfo.sql"));
     }
 }

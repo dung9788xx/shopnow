@@ -21,7 +21,6 @@ class CreateStoreTable extends Migration
             $table->tinyInteger("notification")->default(0);
             $table->tinyInteger("blocked")->default(0);
             $table->bigInteger("user_id");
-            $table->bigInteger("location_id");
 
         });
     }

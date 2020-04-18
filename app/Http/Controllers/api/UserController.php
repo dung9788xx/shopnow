@@ -18,7 +18,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::where("level","!=",2)->get(),200);
+        $users=User::where("level","!=",2)->get();
+        foreach ($users as $key=>$data){
+            $users[$key]["location"]=$data->location;
+            $users[$key]["location"]["province"]=$data->location->province;
+            $users[$key]["location"]["district"]=$data->location->district;
+            $users[$key]["location"]["ward"]=$data->location->ward;
+
+        }
+        return response()->json($users,200);
     }
 
     /**
@@ -40,7 +48,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return response()->json(User::find($id),200);
+        $users=User::find($id);
+            $users["location"]=$users->location;
+            $users["location"]["province"]=$users->location->province;
+            $users["location"]["district"]=$users->location->district;
+            $users["location"]["ward"]=$users->location->ward;
+
+        return response()->json($users,200);
 
     }
 
