@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('username');
             $table->string('password');
-            $table->string('address');
             $table->string('phone')->unique();
             $table->tinyInteger("level");
             $table->tinyInteger("active")->default(0);
@@ -26,6 +25,7 @@ class CreateUsersTable extends Migration
                 ->unique()
                 ->nullable()
                 ->default(null);
+            $table->bigInteger("location_id");
         });
     }
 

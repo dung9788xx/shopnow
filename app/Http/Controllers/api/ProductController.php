@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Product;
 use App\Product_Category;
 use App\Product_Image;
+use App\Store;
 use Illuminate\Support\Arr;
 use App\Exceptions\ApiException;
 use Illuminate\Http\Request;
@@ -184,7 +185,9 @@ class ProductController extends Controller
     }
     public function getProductForSlider()
     {
-        $products=Product::with("images")->where("isSelling",1)->inRandomOrder()->limit(3)->get()->map(function ($product){
+        $products=Product::whereHas("store",function ($query){
+            $query->where("blocked",0);
+        })->with("images")->where("isSelling",1)->inRandomOrder()->limit(3)->get()->map(function ($product){
             return ["product_id"=>$product->product_id,"productName"=>$product->name,"imageUrl"=>$product->images[0]->image_name];
         });
         return response()->json($products,200);
@@ -192,18 +195,22 @@ class ProductController extends Controller
 
     public function getProductByCategory($id)
     {
-        $products=Product_Category::findOrFail($id)->products;
-        foreach($products as $key=>$data){
-            $products[$key]["category"]=$products[$key]->category;
-            $products[$key]["images"]=$products[$key]->images;
-        }
-        return response()->json($products,200);
+        $products = Product_Category::findOrFail($id)->products()->whereHas("store", function ($query) {
+            $query->where("blocked",0);
+        })->get();
 
+        foreach ($products as $key => $data) {
+            $products[$key]["category"] = $products[$key]->category;
+            $products[$key]["images"] = $products[$key]->images;
+        }
+        return response()->json($products, 200);
     }
 
     public function getProductByName($name)
     {
-        $products=Product::where("name","LIKE",'%'.$name.'%')->get();
+        $products=Product::where("name","LIKE",'%'.$name.'%')->whereHas("store", function ($query) {
+            $query->where("blocked",0);
+        })->get();
         foreach($products as $key=>$data){
             $products[$key]["category"]=$products[$key]->category;
             $products[$key]["images"]=$products[$key]->images;

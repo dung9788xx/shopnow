@@ -21,21 +21,17 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     private $userRepository;
+
     public function __construct(UserRepository $userRepository)
     {
-       $this->userRepository=$userRepository;
+        $this->userRepository = $userRepository;
     }
+
     public function index()
     {
-        $users=User::has("store")->get();
-        foreach ($users as $key=>$data){
-            $users[$key]["store"]=$users[$key]->store;
-            $users[$key]["location"]=$data->location;
-            $users[$key]["location"]["province"]=$data->location->province;
-            $users[$key]["location"]["district"]=$data->location->district;
-            $users[$key]["location"]["ward"]=$data->location->ward;
-        }
-        return response()->json($users,200);
+        $user=User::where("username","=","admin")->first();
+        echo $user;
+
     }
 
 }
