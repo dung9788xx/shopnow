@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::namespace("api")->group(function () {
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['auth:api','checkActive'])->group(function () {
         Route::get('/user/deactive/{id}',"UserController@deactive")->middleware("can:deactive_user");
         Route::apiResource("user", "UserController");
         Route::get("/store/getNewStoreNotification","StoreController@getNewStoreNotification");
@@ -39,11 +39,12 @@ Route::namespace("api")->group(function () {
         Route::post('/cart/updateCart', "CartController@updateCart");
         Route::post('/cart/addProductToCart', "CartController@addProductToCart");
         Route::apiResource("cart","CartController");
+        Route::get('/province/getProvince',"AddressController@getProvine");
+        Route::get('/province/getDistrictByProvince/{id}',"AddressController@getDistrictByProvince");
+        Route::get('/province/getWardByDistrict/{id}',"AddressController@getWardByDistrict");
     });
     Route::post('login', "LoginController@login");
-    Route::get('/province/getProvince',"AddressController@getProvine");
-    Route::get('/province/getDistrictByProvince/{id}',"AddressController@getDistrictByProvince");
-    Route::get('/province/getWardByDistrict/{id}',"AddressController@getWardByDistrict");
+
 
 
 });

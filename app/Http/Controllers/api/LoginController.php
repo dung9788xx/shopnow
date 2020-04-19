@@ -17,6 +17,7 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
+
         $user=User::where("username","=",request('username'))->first();
         if($user!=null){
             if($user->level==1||$user->level==3){
