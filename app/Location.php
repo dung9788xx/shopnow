@@ -8,6 +8,7 @@ class Location extends Model
 {
     protected $table="location";
     protected $primaryKey="location_id";
+    protected $fillable=['province_id','district_id','ward_id','street'];
     public $timestamps=false;
 
     public function province()
@@ -22,6 +23,6 @@ class Location extends Model
 
     public function ward()
     {
-        return $this->hasOne("App\Ward","id","ward_id","ward_id");
+        return $this->hasOne("App\Ward","id","ward_id");
     }
 }

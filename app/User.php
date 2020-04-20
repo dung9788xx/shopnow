@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     public $timestamps=false;
+    protected $fillable=["name","username","password","phone","level","active"];
     public function create_Token()
     {
 
@@ -36,7 +37,7 @@ class User extends Authenticatable
 
     public function location()
     {
-        return $this->hasOne("App\Location",'location_id');
+        return $this->hasOne("App\Location",'location_id',"location_id");
 
     }
 

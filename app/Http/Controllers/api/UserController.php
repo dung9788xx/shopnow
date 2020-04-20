@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Location;
 use App\User;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Psy\Util\Str;
 
 class UserController extends Controller
@@ -16,17 +19,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware(["auth:api", 'checkActive'], ['except' => ['store']]);
+    }
+
     public function index()
     {
-        $users=User::where("level","!=",2)->get();
-        foreach ($users as $key=>$data){
-            $users[$key]["location"]=$data->location;
-            $users[$key]["location"]["province"]=$data->location->province;
-            $users[$key]["location"]["district"]=$data->location->district;
-            $users[$key]["location"]["ward"]=$data->location->ward;
+        $users = User::where("level", "!=", 2)->get();
+        foreach ($users as $key => $data) {
+            $users[$key]["location"] = $data->location;
+            $users[$key]["location"]["province"] = $data->location->province;
+            $users[$key]["location"]["district"] = $data->location->district;
+            $users[$key]["location"]["ward"] = $data->location->ward;
 
         }
-        return response()->json($users,200);
+        return response()->json($users, 200);
     }
 
     /**
@@ -37,7 +45,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (User::where("username", "=", \request("username"))->count() > 0) {
+            return response()->json("Tên tài khoản đã tồn tài!", 403);
+        } else {
+            $ar = $request->toArray();
+            $ar["password"] = Hash::make($ar["password"]);
+            $user = new User($ar);
+            $location = new Location($request->toArray());
+            $location->save();
+            $user->location_id = $location->location_id;
+            $user->save();
+            return response()->json($user, 200);
+        }
+
     }
 
     /**
@@ -48,13 +68,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $users=User::find($id);
-            $users["location"]=$users->location;
-            $users["location"]["province"]=$users->location->province;
-            $users["location"]["district"]=$users->location->district;
-            $users["location"]["ward"]=$users->location->ward;
+        $users = User::find($id);
+        $users["location"] = $users->location;
+        $users["location"]["province"] = $users->location->province;
+        $users["location"]["district"] = $users->location->district;
+        $users["location"]["ward"] = $users->location->ward;
 
-        return response()->json($users,200);
+        return response()->json($users, 200);
 
     }
 
@@ -88,14 +108,14 @@ class UserController extends Controller
 
     public function deactive($id)
     {
-            $user = User::find($id);
-            if ($user != null) {
-                $user->active == 1 ? $user->active = 0 : $user->active = 1;
-                if ($user->save()) {
-                    return response()->json("", 200);
-                }
+        $user = User::find($id);
+        if ($user != null) {
+            $user->active == 1 ? $user->active = 0 : $user->active = 1;
+            if ($user->save()) {
+                return response()->json("", 200);
             }
-            return response()->json("", 404);
+        }
+        return response()->json("", 404);
 
     }
 

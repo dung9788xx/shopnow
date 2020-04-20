@@ -12,6 +12,11 @@ class Province extends Model
 
     public function districts()
     {
-        return $this->hasMany("App\District","province_id"  );
+        return $this->hasMany("App\District","province_id");
+    }
+
+    public function location()
+    {
+        return $this->belongsTo("App\Location","location_id","location_id");
     }
 }
