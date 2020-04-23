@@ -22,8 +22,6 @@ class  OrderController extends Controller
             $query->where("user_id",Auth::id());
         })->with(["detail","status","user"])->get();
         return  response()->json($orders,200);
-
-        return  response()->json($orders,200);
     }
 
     /**

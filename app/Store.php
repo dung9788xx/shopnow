@@ -9,6 +9,7 @@ class Store extends Model
     protected $table = "store";
     protected $primaryKey = "store_id";
     public $timestamps = false;
+    protected $fillable=["name","description","user_id"];
 
     public function User()
     {

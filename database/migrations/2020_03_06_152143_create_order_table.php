@@ -19,9 +19,9 @@ class CreateOrderTable extends Migration
             $table->bigInteger("user_id");
             $table->text("shipping_address");
             $table->text("shipping_phone");
-            $table->integer("isNotification");
+            $table->integer("isNotification")->default(0);
             $table->string("date",50);
-            $table->bigInteger("status_id");
+            $table->bigInteger("status_id")->default(1);
 
         });
     }

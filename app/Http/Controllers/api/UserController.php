@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Location;
+use App\Store;
 use App\User;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -48,14 +49,32 @@ class UserController extends Controller
         if (User::where("username", "=", \request("username"))->count() > 0) {
             return response()->json("Tên tài khoản đã tồn tài!", 403);
         } else {
-            $ar = $request->toArray();
-            $ar["password"] = Hash::make($ar["password"]);
-            $user = new User($ar);
-            $location = new Location($request->toArray());
-            $location->save();
-            $user->location_id = $location->location_id;
-            $user->save();
-            return response()->json($user, 200);
+           if(\request("level")==2){
+               if(Store::where("name","=",\request("storeName"))->count()>0){
+                   return response()->json("Tên cửa hàng đã tồn tài!", 403);
+               }else{
+                   $ar = $request->toArray();
+                   $ar["password"] = Hash::make($ar["password"]);
+                   $user = new User($ar);
+                   $location = new Location($request->toArray());
+                   $location->save();
+                   $user->location_id = $location->location_id;
+                   $user->save();
+                   $store=new Store(["name"=>\request("storeName"),"description"=>\request("description"),
+                       "user_id"=>$user->id]);
+                   $store->save();
+                   return response()->json("OK", 200);
+               }
+           }else{
+               $ar = $request->toArray();
+               $ar["password"] = Hash::make($ar["password"]);
+               $user = new User($ar);
+               $location = new Location($request->toArray());
+               $location->save();
+               $user->location_id = $location->location_id;
+               $user->save();
+               return response()->json("OK", 200);
+           }
         }
 
     }
