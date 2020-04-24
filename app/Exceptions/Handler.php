@@ -62,7 +62,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json('Unauthenticated.', 401);
+            return response()->json('Phiên đăng nhập hết hạn vui lòng đăng nhập lại !', 401);
         }
 
         return redirect()->guest(route('login'));

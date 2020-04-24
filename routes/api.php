@@ -37,6 +37,8 @@ Route::namespace("api")->group(function () {
         Route::get('/cart/getCartByUserId', "CartController@getCartByUserId");
         Route::post('/cart/updateCart', "CartController@updateCart");
         Route::post('/cart/addProductToCart', "CartController@addProductToCart");
+        Route::post('/cart/placeOrder',"CartController@placeOrder");
+        Route::get('/cart/getShippingInfo',"CartController@getShippingInfo");
         Route::apiResource("cart","CartController");
     });
     Route::apiResource("user", "UserController");

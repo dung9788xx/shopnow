@@ -5,6 +5,9 @@ namespace App\Http\Controllers\api;
 use App\Cart;
 use App\Cart_Detail;
 use App\Http\Controllers\Controller;
+use App\Location;
+use App\Order;
+use App\Order_Detail;
 use App\Product;
 use App\User;
 use  Illuminate\Support\Facades\Log;
@@ -144,5 +147,59 @@ class CartController extends Controller
         }
 
         return response()->json("OK",200);
+    }
+
+    public function getShippingInfo()
+    {
+        $location=Location::whereHas("user",function ($query){
+            $query->where("id",Auth::id());
+        })->firstOrFail();
+        $location["phone"]=User::find(Auth::id())->phone;
+        return response()->json($location,200);
+    }
+    public function placeOrder()
+    {
+        $cart = Cart::with("detail")->where("user_id",Auth::id())->first();
+        $orders_saved = collect();
+        foreach ($cart->detail as $key => $data) {
+            if (!$orders_saved->contains('store_id', $data->product->store->store_id)) {
+                $order = new Order;
+                $order->store_id = $data->product->store->store_id;
+                $order->user_id = $cart->user_id;
+                $order->shipping_address =  \request("address");
+                $order->shipping_phone = \request("phone");
+                $order->date = date("d/m/Y");
+                $order->save();
+                $order_detail = new Order_Detail;
+                $order_detail->order_id = $order->order_id;
+                $order_detail->product_id = $data->product_id;
+                $order_detail->name = $data->product->name;
+                $order_detail->price = $data->product->price;
+                $order_detail->quantity = $data->quantity;
+                $order_detail->note = $data->note;
+                $order_detail->save();
+                $orders_saved->push(["store_id" => $data->product->store->store_id, "order_id" => $order->order_id]);
+            } else {
+                $result = $orders_saved->firstWhere("store_id", $data->product->store->store_id);
+                $order = Order::find($result["order_id"]);
+                $order_detail = new Order_Detail();
+                $order_detail->order_id = $order->order_id;
+                $order_detail->product_id = $data->product_id;
+                $order_detail->name = $data->product->name;
+                $order_detail->price = $data->product->price;
+                $order_detail->quantity = $data->quantity;
+                $order_detail->note = $data->note;
+                $order_detail->save();
+            }
+
+        }
+        $cart->detail()->delete();
+        $cart->delete();
+        if($orders_saved->count()>1){
+            return response()->json("Đặt hàng thành công, do bạn đặt ".$orders_saved->count()." cửa hàng khác
+             nhau nên sẽ được chia thành ".$orders_saved->count()." đơn hàng.",200);
+        }else{
+            return response()->json("Đặt hàng thành công !",200);
+        }
     }
 }

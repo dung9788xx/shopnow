@@ -25,4 +25,9 @@ class Location extends Model
     {
         return $this->hasOne("App\Ward","id","ward_id");
     }
+
+    public function user()
+    {
+        return $this->belongsTo("App\User","location_id");
+    }
 }
