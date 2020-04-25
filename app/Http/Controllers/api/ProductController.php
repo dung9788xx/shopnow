@@ -228,5 +228,6 @@ class ProductController extends Controller
         return response()->json($image,200);
     }
 
+  
 
 }

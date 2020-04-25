@@ -26,6 +26,8 @@ Route::namespace("api")->group(function () {
         Route::get("/store/getProductById/{id}","StoreController@getProductById");
         Route::apiResource("store","StoreController");
         Route::get("/order/getNewOrderNotification","OrderController@getNewOrderNotification");
+        Route::get("/order/getOrderByUser","OrderController@getOrderByUser");
+        Route::get("/order/getOrderDetail/{id}","OrderController@getOrderDetail");
         Route::apiResource("order","OrderController");
         Route::get('/product/getImageById/{id}',"ProductController@getImageById");
         Route::get('/product/getProductByName/{name}',"ProductController@getProductByName");
@@ -46,6 +48,6 @@ Route::namespace("api")->group(function () {
     Route::get('/province/getProvince',"AddressController@getProvine");
     Route::get('/province/getDistrictByProvince/{id}',"AddressController@getDistrictByProvince");
     Route::get('/province/getWardByDistrict/{id}',"AddressController@getWardByDistrict");
-
+    Route::get('/getThumbImage/{id}',"ImageController@getThumbImage");
 
 });

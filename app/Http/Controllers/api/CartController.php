@@ -112,13 +112,14 @@ class CartController extends Controller
             if ($cart->detail()->where("product_id", \request("product_id"))->get()->count() > 0) {
                 $cart_detail = Cart_Detail::where("cart_id", $cart->cart_id)->where("product_id", \request("product_id"))->get()[0];
                 $cart_detail->quantity = $cart_detail->quantity + \request("quantity");
+                $cart_detail->price=\request("price");
                 $cart_detail->note = \request("note");
                 if ($cart_detail->save()) {
                     return response()->json("OK", 200);
                 }
             } else {
                 if ($cart->detail()->save(new Cart_Detail(["cart_id" => $cart->cart_id, "product_id" => \request("product_id"),
-                    "quantity" => \request("quantity"), "note" => \request("note")]))) {
+                    "quantity" => \request("quantity"),"price"=>\request("price"), "note" => \request("note")]))) {
                     return response()->json("OK", 200);
                 }
             }
@@ -126,7 +127,7 @@ class CartController extends Controller
             $cart = Cart::create(["user_id" => Auth::id()]);
             if ($cart->detail()->updateOrCreate(
                 ["cart_id" => $cart->cart_id, "product_id" => \request("product_id")],
-                ["quantity" => \request("quantity"), "note" => \request("note")])) {
+                ["quantity" => \request("quantity"),"price"=>\request("price"), "note" => \request("note")])) {
                 return response()->json("OK", 200);
             }
         }
@@ -191,13 +192,11 @@ class CartController extends Controller
                 $order_detail->note = $data->note;
                 $order_detail->save();
             }
-
         }
         $cart->detail()->delete();
         $cart->delete();
         if($orders_saved->count()>1){
-            return response()->json("Đặt hàng thành công, do bạn đặt ".$orders_saved->count()." cửa hàng khác
-             nhau nên sẽ được chia thành ".$orders_saved->count()." đơn hàng.",200);
+            return response()->json("Đặt hàng thành công, do bạn đặt ".$orders_saved->count()." cửa hàng khác nhau nên sẽ được chia thành ".$orders_saved->count()." đơn hàng.",200);
         }else{
             return response()->json("Đặt hàng thành công !",200);
         }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cart_Detail extends Model
 {
     protected $table="cart_detail";
-    protected $fillable=["cart_id","product_id","quantity","note"];
+    protected $fillable=["cart_id","product_id","quantity","price","note"];
     protected $primaryKey=["cart_id","product_id"];
     public $timestamps=false;
     public $incrementing=false;

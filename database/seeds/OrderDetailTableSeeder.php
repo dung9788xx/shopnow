@@ -21,20 +21,20 @@ class OrderDetailTableSeeder extends Seeder
         DB::table('order_detail')->insert([
             'order_id' => 1,
             'product_id'=>2,
-            'name'=>"Quần bò",
+            'name'=>"Áo sơ mi",
             'price'=>250000,
             'quantity'=>1
         ]);
         DB::table('order_detail')->insert([
             'order_id' => 2,
-            'product_id'=>3,
-            'name'=>"Quần bò",
-            'price'=>350000,
-            'quantity'=>2
+            'product_id'=>2,
+            'name'=>"Áo sơ mi",
+            'price'=>250000,
+            'quantity'=>5
         ]);
         DB::table('order_detail')->insert([
             'order_id' => 3,
-            'product_id'=>4,
+            'product_id'=>3,
             'name'=>"Iphone X",
             'price'=>25000000,
             'quantity'=>1

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Order;
+use App\Order_Detail;
 use App\Store;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -105,4 +106,15 @@ class  OrderController extends Controller
         return  response()->json(["count"=>$newOrderCount],200);
     }
 
+    public function getOrderByUser()
+    {
+        $orders=Order::where("user_id",Auth::id())->get();
+        return response()->json($orders,200);
+    }
+
+    public function getOrderDetail($order_id)
+    {
+        $order_details=Order_Detail::where("order_id",$order_id)->get();
+        return response()->json($order_details,200);
+    }
 }
