@@ -117,4 +117,20 @@ class  OrderController extends Controller
         $order_details=Order_Detail::where("order_id",$order_id)->get();
         return response()->json($order_details,200);
     }
+
+    public function declineOrder($id)
+    {
+        $order=Order::findOrFail($id);
+        $order->status_id=4;
+        $order->save();
+        return response()->json("OK",200);
+    }
+
+    public function acceptOrder($id)
+    {
+        $order=Order::findOrFail($id);
+        $order->status_id=2;
+        $order->save();
+        return response()->json("OK",200);
+    }
 }

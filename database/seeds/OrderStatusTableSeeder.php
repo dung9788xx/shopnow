@@ -21,7 +21,10 @@ class OrderStatusTableSeeder extends Seeder
             'name' => "Đã nhận hàng",
         ]);
         DB::table('order_status')->insert([
-            'name' => "Đợn hàng bị hủy",
+            'name' => "Đợn hàng bị từ chối",
+        ]);
+        DB::table('order_status')->insert([
+            'name' => "Đã hủy",
         ]);
     }
 }
