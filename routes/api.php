@@ -30,6 +30,8 @@ Route::namespace("api")->group(function () {
         Route::get("/order/getOrderDetail/{id}","OrderController@getOrderDetail");
         Route::get("/order/declineOrder/{id}","OrderController@declineOrder");
         Route::get("/order/acceptOrder/{id}","OrderController@acceptOrder");
+        Route::get("/order/cancelOrder/{id}","OrderController@cancelOrder");
+        Route::get("/order/receivedOrder/{id}","OrderController@receivedOrder");
         Route::apiResource("order","OrderController");
         Route::get('/product/getImageById/{id}',"ProductController@getImageById");
         Route::get('/product/getProductByName/{name}',"ProductController@getProductByName");

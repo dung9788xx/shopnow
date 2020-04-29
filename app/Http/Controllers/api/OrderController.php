@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Order;
 use App\Order_Detail;
 use App\Store;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,6 +110,16 @@ class  OrderController extends Controller
     public function getOrderByUser()
     {
         $orders=Order::where("user_id",Auth::id())->get();
+        foreach ($orders as $key=>$data){
+            $amount=0;
+            foreach ($data->detail   as $key1=>$data1){
+                $amount=$amount+($data1->quantity*$data1->price);
+            }
+            $user=new User;
+            $user->id=$amount;
+            $orders[$key]["user"]=$user;
+            $orders[$key]["status"]=$data->status;
+        }
         return response()->json($orders,200);
     }
 
@@ -130,6 +141,21 @@ class  OrderController extends Controller
     {
         $order=Order::findOrFail($id);
         $order->status_id=2;
+        $order->save();
+        return response()->json("OK",200);
+    }
+
+    public function cancelOrder($id)
+    {
+        $order=Order::findOrFail($id);
+        $order->status_id=5;
+        $order->save();
+        return response()->json("OK",200);
+    }
+    public function receivedOrder($id)
+    {
+        $order=Order::findOrFail($id);
+        $order->status_id=3;
         $order->save();
         return response()->json("OK",200);
     }
