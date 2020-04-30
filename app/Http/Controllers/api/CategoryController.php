@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Product_Category;
 use App\Product_Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */ 
+     */
     public function index()
     {
         return response()->json(Product_Category::all(),200);
@@ -84,7 +85,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category=Product_Category::find($id);
+        Storage::delete("public/categoryimage/".$id.".png");
+        $category->products()->delete();
+        $category->delete();
     }
     protected function saveImgBase64($param, $folder,$category_id)
     {

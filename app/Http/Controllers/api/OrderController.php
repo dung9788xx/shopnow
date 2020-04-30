@@ -117,6 +117,7 @@ class  OrderController extends Controller
             }
             $user=new User;
             $user->id=$amount;
+            $user->name=Auth::user()->name;
             $orders[$key]["user"]=$user;
             $orders[$key]["status"]=$data->status;
         }
