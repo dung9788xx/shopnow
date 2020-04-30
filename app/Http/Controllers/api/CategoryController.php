@@ -39,7 +39,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-//        $category=new Product_Category();
+        if(Product_Category::where("name","=",\request("name"))->count()>0){
+            return response()->json("Đã tồn tại danh mục",409);
+        }else {
+            $category = new Product_Category;
+            $category->name = \request("name");
+            $category->detail = \request("detail");
+            $category->save();
+            $this->saveImgBase64(\request("img"), "categoryimage", $category->category_id);
+            return response()->json("ok", 200);
+        }
 
     }
 

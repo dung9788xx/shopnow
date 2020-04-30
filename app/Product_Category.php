@@ -9,6 +9,7 @@ class Product_Category extends Model
     protected $table="product_category";
     protected $primaryKey="category_id";
     public $timestamps=false;
+    protected $fillable=["name","detail"];
 
     public function products()
     {
