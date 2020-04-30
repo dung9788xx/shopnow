@@ -71,7 +71,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -83,7 +83,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Product_Category::where("name","=",\request("name"))->where("category_id","!=",$id)->count()>0){
+            return response()->json("Đã tồn tại danh mục",409);
+        }else {
+            $category =Product_Category::findOrFail($id);
+            $category->name=\request("name");
+            $category->detail=\request("detail");
+            $category->save();
+            return response()->json("ok", 200);
+        }
     }
 
     /**
