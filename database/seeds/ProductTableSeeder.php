@@ -15,6 +15,7 @@ class ProductTableSeeder extends Seeder
             'name' => "Áo khoác",
             'description'=>"Áo khoác mùa đông mỏng nhẹ giá rẻ",
             'price'=>250000,
+            'promotion_price'=>240000,
             'amount'=>100,
             "store_id"=>1,
             "category_id"=>1
@@ -22,7 +23,8 @@ class ProductTableSeeder extends Seeder
         DB::table('product')->insert([
             'name' => "Áo sơ mi",
             'description'=>"Thiết kế trẻ trung năng động",
-            'price'=>250000,
+            'price'=>150000,
+            'promotion_price'=>125000,
             'amount'=>100,
             "store_id"=>1,
             "category_id"=>1
@@ -31,7 +33,8 @@ class ProductTableSeeder extends Seeder
             'name' => "Iphone X",
             'description'=>"Iphone X sách tay giá rẻ",
             'price'=>25000000,
-            'amount'=>100,
+            'promotion_price'=>24500000,
+            'amount'=>20,
             "store_id"=>2,
             "category_id"=>2
         ]);

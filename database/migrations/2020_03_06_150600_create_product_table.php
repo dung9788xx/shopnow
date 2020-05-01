@@ -18,6 +18,7 @@ class CreateProductTable extends Migration
             $table->string("name");
             $table->text("description");
             $table->bigInteger("price");
+            $table->bigInteger('promotion_price')->default(0)->nullable();
             $table->bigInteger("amount");
             $table->bigInteger("store_id");
             $table->bigInteger("category_id");

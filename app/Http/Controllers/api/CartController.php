@@ -64,6 +64,7 @@ class CartController extends Controller
         $cart["detail"] = $cart->detail;
         foreach ($cart->detail as $key => $data) {
             $cart->detail[$key]["product"] = Product::find($cart->detail[$key]->product_id);
+            $cart->detail[$key]["product"]->price=$data->price;
             $cart->detail[$key]["product"]["images"] = [Product::find($cart->detail[$key]->product_id)->images[0]];
             $cart->detail->makeHidden(["product_id"]);
         }
@@ -175,7 +176,12 @@ class CartController extends Controller
                 $order_detail->order_id = $order->order_id;
                 $order_detail->product_id = $data->product_id;
                 $order_detail->name = $data->product->name;
-                $order_detail->price = $data->product->price;
+                $product_new_info=Product::find($data->product_id);
+                if($product_new_info->promotion_price!=0){
+                    $order_detail->price = $product_new_info->promotion_price;
+                }else{
+                    $order_detail->price = $product_new_info->price;
+                }
                 $order_detail->quantity = $data->quantity;
                 $order_detail->note = $data->note;
                 $order_detail->save();
@@ -187,7 +193,12 @@ class CartController extends Controller
                 $order_detail->order_id = $order->order_id;
                 $order_detail->product_id = $data->product_id;
                 $order_detail->name = $data->product->name;
-                $order_detail->price = $data->product->price;
+                $product_new_info=Product::find($data->product_id);
+                if($product_new_info->promotion_price!=0){
+                    $order_detail->price = $product_new_info->promotion_price;
+                }else{
+                    $order_detail->price = $product_new_info->price;
+                }
                 $order_detail->quantity = $data->quantity;
                 $order_detail->note = $data->note;
                 $order_detail->save();

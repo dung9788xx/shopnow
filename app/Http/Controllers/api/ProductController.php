@@ -69,6 +69,7 @@ class ProductController extends Controller
         $product->name=request("name");
         $product->description=request("description");
         $product->price=\request("price");
+        $product->promotion_price=\request("promotion_price")==null?0:\request("promotion_price");
         $product->amount=\request("amount");
         $product->category_id=\request("category_id");
         if(Auth::user()->store->products()->save($product)){
@@ -128,6 +129,7 @@ class ProductController extends Controller
         $product->name=request("name");
         $product->description=request("description");
         $product->price=\request("price");
+        $product->promotion_price=\request("promotion_price")==null?0:\request("promotion_price");
         $product->amount=\request("amount");
         $product->category_id=\request("category_id");
         if($product->save()){
@@ -228,6 +230,6 @@ class ProductController extends Controller
         return response()->json($image,200);
     }
 
-  
+
 
 }
