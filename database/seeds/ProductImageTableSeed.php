@@ -59,5 +59,19 @@ class ProductImageTableSeed extends Seeder
             'product_id' => 4,
             'image_name'=>"3.png",
         ]);
+
+        //
+        DB::table('product_image')->insert([
+            'product_id' => 5,
+            'image_name'=>"1.png",
+        ]);
+        DB::table('product_image')->insert([
+            'product_id' => 5,
+            'image_name'=>"2.png",
+        ]);
+        DB::table('product_image')->insert([
+            'product_id' => 5,
+            'image_name'=>"3.png",
+        ]);
     }
 }
