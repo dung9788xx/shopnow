@@ -182,6 +182,11 @@ class CartController extends Controller
                 }else{
                     $order_detail->price = $product_new_info->price;
                 }
+                $product_new_info->amount=$product_new_info->amount-$data->quantity;
+                if($product_new_info->amount<0){
+                    $product_new_info->amount=0;
+                }
+                $product_new_info->save();
                 $order_detail->quantity = $data->quantity;
                 $order_detail->note = $data->note;
                 $order_detail->save();
@@ -199,6 +204,11 @@ class CartController extends Controller
                 }else{
                     $order_detail->price = $product_new_info->price;
                 }
+                $product_new_info->amount=  $product_new_info->quantity-$data->quantity;
+                if($product_new_info->amount<0){
+                    $product_new_info->amount=0;
+                }
+                $product_new_info->save();
                 $order_detail->quantity = $data->quantity;
                 $order_detail->note = $data->note;
                 $order_detail->save();

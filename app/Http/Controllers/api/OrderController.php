@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\Order_Detail;
+use App\Product;
 use App\Store;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -149,6 +150,11 @@ class  OrderController extends Controller
     public function cancelOrder($id)
     {
         $order=Order::findOrFail($id);
+        foreach ($order->detail as $key=>$data ){
+            $product=Product::findOrFail($data->product_id);
+            $product->amount= $product->amount+$data->quantity;
+            $product->save();
+        }
         $order->status_id=5;
         $order->save();
         return response()->json("OK",200);
