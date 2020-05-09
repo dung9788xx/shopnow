@@ -189,7 +189,7 @@ class ProductController extends Controller
     {
         $products=Product::whereHas("store",function ($query){
             $query->where("blocked",0);
-        })->with("images")->where("isSelling",1)->inRandomOrder()->limit(3)->get()->map(function ($product){
+        })->with("images")->where("isSelling",1)->inRandomOrder()->limit(4)->get()->map(function ($product){
             return ["product_id"=>$product->product_id,"productName"=>$product->name,"imageUrl"=>$product->images[0]->image_name];
         });
         return response()->json($products,200);
@@ -197,7 +197,7 @@ class ProductController extends Controller
 
     public function getProductByCategory($id)
     {
-        $products = Product_Category::findOrFail($id)->products()->whereHas("store", function ($query) {
+        $products = Product_Category::findOrFail($id)->products()->where("isSelling",1)->whereHas("store", function ($query) {
             $query->where("blocked",0);
         })->get();
 
