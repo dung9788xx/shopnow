@@ -161,14 +161,17 @@ class CartController extends Controller
     }
     public function placeOrder()
     {
-        $cart = Cart::with("detail")->where("user_id",Auth::id())->first();
+//        $cart = Cart::with("detail")->where("user_id",Auth::id())->first();
+        $cart = Cart::where("user_id", 2)->with(["detail" => function ($query) {
+            $query->join("product","product.product_id","=","cart_detail.product_id")->whereRaw("product.amount-quantity >= 0 ");
+        }])->get()->first();
         $orders_saved = collect();
         foreach ($cart->detail as $key => $data) {
             if (!$orders_saved->contains('store_id', $data->product->store->store_id)) {
                 $order = new Order;
                 $order->store_id = $data->product->store->store_id;
                 $order->user_id = $cart->user_id;
-                $order->shipping_address =  \request("address");
+                $order->shipping_address = \request("address");
                 $order->shipping_phone = \request("phone");
                 $order->date = date("d/m/Y");
                 $order->save();
@@ -176,21 +179,22 @@ class CartController extends Controller
                 $order_detail->order_id = $order->order_id;
                 $order_detail->product_id = $data->product_id;
                 $order_detail->name = $data->product->name;
-                $product_new_info=Product::find($data->product_id);
-                if($product_new_info->promotion_price!=0){
+                $product_new_info = Product::find($data->product_id);
+                if ($product_new_info->promotion_price != 0) {
                     $order_detail->price = $product_new_info->promotion_price;
-                }else{
+                } else {
                     $order_detail->price = $product_new_info->price;
                 }
-                $product_new_info->amount=$product_new_info->amount-$data->quantity;
-                if($product_new_info->amount<0){
-                    $product_new_info->amount=0;
+                $product_new_info->amount = $product_new_info->amount - $data->quantity;
+                if ($product_new_info->amount < 0) {
+                    $product_new_info->amount = 0;
                 }
                 $product_new_info->save();
                 $order_detail->quantity = $data->quantity;
                 $order_detail->note = $data->note;
                 $order_detail->save();
                 $orders_saved->push(["store_id" => $data->product->store->store_id, "order_id" => $order->order_id]);
+                $data->delete();
             } else {
                 $result = $orders_saved->firstWhere("store_id", $data->product->store->store_id);
                 $order = Order::find($result["order_id"]);
@@ -198,24 +202,27 @@ class CartController extends Controller
                 $order_detail->order_id = $order->order_id;
                 $order_detail->product_id = $data->product_id;
                 $order_detail->name = $data->product->name;
-                $product_new_info=Product::find($data->product_id);
-                if($product_new_info->promotion_price!=0){
+                $product_new_info = Product::find($data->product_id);
+                if ($product_new_info->promotion_price != 0) {
                     $order_detail->price = $product_new_info->promotion_price;
-                }else{
+                } else {
                     $order_detail->price = $product_new_info->price;
                 }
-                $product_new_info->amount=  $product_new_info->quantity-$data->quantity;
-                if($product_new_info->amount<0){
-                    $product_new_info->amount=0;
+                $product_new_info->amount = $product_new_info->quantity - $data->quantity;
+                if ($product_new_info->amount < 0) {
+                    $product_new_info->amount = 0;
                 }
                 $product_new_info->save();
                 $order_detail->quantity = $data->quantity;
                 $order_detail->note = $data->note;
                 $order_detail->save();
+                $data->delete();
             }
         }
-        $cart->detail()->delete();
-        $cart->delete();
+        $cart->fresh();
+        if($cart->count()<0){
+            $cart->delete();
+        }
         if($orders_saved->count()>1){
             return response()->json("Đặt hàng thành công, do bạn đặt ".$orders_saved->count()." cửa hàng khác nhau nên sẽ được chia thành ".$orders_saved->count()." đơn hàng.",200);
         }else{
