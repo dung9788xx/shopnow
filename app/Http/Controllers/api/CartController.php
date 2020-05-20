@@ -161,8 +161,7 @@ class CartController extends Controller
     }
     public function placeOrder()
     {
-//        $cart = Cart::with("detail")->where("user_id",Auth::id())->first();
-        $cart = Cart::where("user_id", 2)->with(["detail" => function ($query) {
+        $cart = Cart::where("user_id", Auth::id())->with(["detail" => function ($query) {
             $query->join("product","product.product_id","=","cart_detail.product_id")->whereRaw("product.amount-quantity >= 0 ");
         }])->get()->first();
         $orders_saved = collect();

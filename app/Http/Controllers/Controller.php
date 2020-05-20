@@ -32,17 +32,7 @@ class Controller extends BaseController
 
     public function index()
     {
-        $cart = Cart::where("user_id", 2)->with(["detail" => function ($query) {
-            $query->join("product","product.product_id","=","cart_detail.product_id")->whereRaw("product.amount-quantity >= 0 ");
-        }])->get()->first();
-        foreach ($cart->detail as $key => $data) {
-               $data->delete();
-        }
-        $cart->fresh();
-        echo $cart->count();
-        if($cart->count()<0){
-            $cart->delete();
-        }
+        $cart=Product::all()->take(2);
        return response()->json($cart, 200);
     }
 }
