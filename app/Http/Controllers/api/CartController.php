@@ -225,7 +225,7 @@ class CartController extends Controller
         if($orders_saved->count()>1){
             return response()->json("Đặt hàng thành công, do bạn đặt ".$orders_saved->count()." cửa hàng khác nhau nên sẽ được chia thành ".$orders_saved->count()." đơn hàng.",200);
         }else{
-            return response()->json("Đặt hàng thành công !",200);
+            return response()->json("Đặt hàng thành công, lòng đợi cửa hàng xử lý !",200);
         }
     }
 }

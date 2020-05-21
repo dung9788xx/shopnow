@@ -49,32 +49,32 @@ class UserController extends Controller
         if (User::where("username", "=", \request("username"))->count() > 0) {
             return response()->json("Tên tài khoản đã tồn tài!", 403);
         } else {
-           if(\request("level")==2){
-               if(Store::where("name","=",\request("storeName"))->count()>0){
-                   return response()->json("Tên cửa hàng đã tồn tài!", 403);
-               }else{
-                   $ar = $request->toArray();
-                   $ar["password"] = Hash::make($ar["password"]);
-                   $user = new User($ar);
-                   $location = new Location($request->toArray());
-                   $location->save();
-                   $user->location_id = $location->location_id;
-                   $user->save();
-                   $store=new Store(["name"=>\request("storeName"),"description"=>\request("description"),
-                       "user_id"=>$user->id]);
-                   $store->save();
-                   return response()->json("OK", 200);
-               }
-           }else{
-               $ar = $request->toArray();
-               $ar["password"] = Hash::make($ar["password"]);
-               $user = new User($ar);
-               $location = new Location($request->toArray());
-               $location->save();
-               $user->location_id = $location->location_id;
-               $user->save();
-               return response()->json("OK", 200);
-           }
+            if (\request("level") == 2) {
+                if (Store::where("name", "=", \request("storeName"))->count() > 0) {
+                    return response()->json("Tên cửa hàng đã tồn tài!", 403);
+                } else {
+                    $ar = $request->toArray();
+                    $ar["password"] = Hash::make($ar["password"]);
+                    $user = new User($ar);
+                    $location = new Location($request->toArray());
+                    $location->save();
+                    $user->location_id = $location->location_id;
+                    $user->save();
+                    $store = new Store(["name" => \request("storeName"), "description" => \request("description"),
+                        "user_id" => $user->id]);
+                    $store->save();
+                    return response()->json("OK", 200);
+                }
+            } else {
+                $ar = $request->toArray();
+                $ar["password"] = Hash::make($ar["password"]);
+                $user = new User($ar);
+                $location = new Location($request->toArray());
+                $location->save();
+                $user->location_id = $location->location_id;
+                $user->save();
+                return response()->json("OK", 200);
+            }
         }
 
     }
@@ -92,7 +92,6 @@ class UserController extends Controller
         $users["location"]["province"] = $users->location->province;
         $users["location"]["district"] = $users->location->district;
         $users["location"]["ward"] = $users->location->ward;
-
         return response()->json($users, 200);
 
     }
@@ -106,7 +105,41 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (User::where("username", "=", \request("username"))->where("id","!=",$id)->count() > 0) {
+            return response()->json("Tên tài khoản đã tồn tài!", 403);
+        } else {
+            if (\request("level") == 2) {
+                if (Store::where("name", "=", \request("storeName"))->count() > 0) {
+                    return response()->json("Tên cửa hàng đã tồn tài!", 403);
+                } else {
+                    $ar = $request->toArray();
+                    $ar["password"] = Hash::make($ar["password"]);
+                    $user = new User($ar);
+                    $user->id = $id;
+                    $location = new Location($request->toArray());
+                    $location->save();
+                    $user->location_id = $location->location_id;
+                    $user->save();
+                    $store = new Store(["name" => \request("storeName"), "description" => \request("description"),
+                        "user_id" => $user->id]);
+                    $store->save();
+                    return response()->json("OK", 200);
+                }
+            } else {
+
+                if ($request["password"] == "") {
+                    unset($request["password"]);
+                }
+                $ar = $request->toArray();
+                if(isset($request["password"])){
+                    $ar["password"] = Hash::make($ar["password"]);
+                }
+                User::find($id)->update($ar);
+                Location::find($request["location_id"])->update($request->toArray());
+                return response()->json("OK", 200);
+            }
+        }
+
     }
 
     /**
