@@ -50,7 +50,11 @@ class UserController extends Controller
     {
         if (User::where("username", "=", \request("username"))->count() > 0) {
             return response()->json("Tên tài khoản đã tồn tài!", 403);
-        } else {
+        }
+        else   if (User::where("phone", "=", \request("phone"))->count() > 0) {
+            return response()->json("Số điện thoại đã tồn tại!", 403);
+        }
+        else {
             if (\request("level") == 2) {
                 if (Store::where("name", "=", \request("storeName"))->count() > 0) {
                     return response()->json("Tên cửa hàng đã tồn tài!", 403);
@@ -63,7 +67,7 @@ class UserController extends Controller
                     $user->location_id = $location->location_id;
                     $user->save();
                     $store = new Store(["name" => \request("storeName"), "description" => \request("description"),
-                        "user_id" => $user->id]);
+                        "user_id" => $user->id, "approval" => \request("approval"), "notification" => \request("notification")]);
                     $store->save();
                     return response()->json("OK", 200);
                 }
@@ -90,12 +94,12 @@ class UserController extends Controller
     public function show($id)
     {
         $users = User::find($id);
+        $users["store"] = $users->store;
         $users["location"] = $users->location;
         $users["location"]["province"] = $users->location->province;
         $users["location"]["district"] = $users->location->district;
         $users["location"]["ward"] = $users->location->ward;
         return response()->json($users, 200);
-
     }
 
     /**
@@ -107,24 +111,29 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (User::where("username", "=", \request("username"))->where("id","!=",$id)->count() > 0) {
+        if (User::where("username", "=", \request("username"))->where("id", "!=", $id)->count() > 0) {
             return response()->json("Tên tài khoản đã tồn tài!", 403);
-        } else {
+        }
+        else   if (User::where("phone", "=", \request("phone"))->where("id", "!=", $id)->count() > 0) {
+            return response()->json("Số điện thoại đã tồn tại!", 403);
+        }
+        else {
             if (\request("level") == 2) {
-                if (Store::where("name", "=", \request("storeName"))->count() > 0) {
+                if (Store::where("name", "=", \request("storeName"))->where("store_id", "!=", $request["store_id"])->count() > 0) {
                     return response()->json("Tên cửa hàng đã tồn tài!", 403);
                 } else {
+                    if ($request["password"] == "") {
+                        unset($request["password"]);
+                    }
                     $ar = $request->toArray();
-                    $ar["password"] = Hash::make($ar["password"]);
-                    $user = new User($ar);
-                    $user->id = $id;
-                    $location = new Location($request->toArray());
-                    $location->save();
-                    $user->location_id = $location->location_id;
-                    $user->save();
-                    $store = new Store(["name" => \request("storeName"), "description" => \request("description"),
-                        "user_id" => $user->id]);
-                    $store->save();
+                    if (isset($request["password"])) {
+                        $ar["password"] = Hash::make($ar["password"]);
+                    }
+                    User::find($id)->update($ar);
+                    Location::find($request["location_id"])->update($ar);
+                    $ar["name"] = $request["storeName"];
+                    Store::find($request["store_id"])->update($ar);
+
                     return response()->json("OK", 200);
                 }
             } else {
@@ -133,11 +142,11 @@ class UserController extends Controller
                     unset($request["password"]);
                 }
                 $ar = $request->toArray();
-                if(isset($request["password"])){
+                if (isset($request["password"])) {
                     $ar["password"] = Hash::make($ar["password"]);
                 }
                 User::find($id)->update($ar);
-                Location::find($request["location_id"])->update($request->toArray());
+                Location::find($request["location_id"])->update($ar);
                 return response()->json("OK", 200);
             }
         }
@@ -153,17 +162,23 @@ class UserController extends Controller
     public function destroy($id)
     {
 
-        $user=User::find($id);
-        $cart=Cart::where("user_id",$user->id)->first();
-        if($cart!=null){
+        $user = User::find($id);
+        $cart = Cart::where("user_id", $user->id)->first();
+        if ($cart != null) {
             $cart->detail()->delete();
             $cart->delete();
         }
-        $order=Order::where("user_id",$user->id)->first();
-       if($order!=null){
-           $order->detail()->delete();
-           $order->delete();
-       }
+        $order = Order::where("user_id", $user->id)->first();
+        if ($order != null) {
+            $order->detail()->delete();
+            $order->delete();
+        }
+        $location = Location::where("location_id", $user->location_id)->first();
+        $location->delete();
+        $store = Store::where("user_id", $user->id)->first();
+        if ($store != null) {
+            $store->delete();
+        }
         $user->delete();
     }
 
