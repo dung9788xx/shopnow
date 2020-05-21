@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Cart;
 use App\Http\Controllers\Controller;
 use App\Location;
+use App\Order;
 use App\Store;
 use App\User;
 use App\Http\Resources\UserResource;
@@ -151,11 +153,18 @@ class UserController extends Controller
     public function destroy($id)
     {
 
-        if (Auth::user()->can("delete", User::find($id))) {
-            User::find($id)->delete();
-        } else {
-            return response()->json(['error' => 'Unauthors'], 401);
+        $user=User::find($id);
+        $cart=Cart::where("user_id",$user->id)->first();
+        if($cart!=null){
+            $cart->detail()->delete();
+            $cart->delete();
         }
+        $order=Order::where("user_id",$user->id)->first();
+       if($order!=null){
+           $order->detail()->delete();
+           $order->delete();
+       }
+        $user->delete();
     }
 
     public function deactive($id)
