@@ -57,7 +57,16 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        //
+        $users = User::whereHas("store",function ($query) use ($id){
+            $query->where("store_id",$id);
+        })->first();
+        $users["store"] = $users->store;
+        $users["location"] = $users->location;
+        $users["location"]["province"] = $users->location->province;
+        $users["location"]["district"] = $users->location->district;
+        $users["location"]["ward"] = $users->location->ward;
+        return response()->json($users, 200);
+
     }
 
     /**
