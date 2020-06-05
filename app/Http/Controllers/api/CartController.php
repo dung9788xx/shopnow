@@ -63,7 +63,7 @@ class CartController extends Controller
         $cart = Cart::where("user_id", Auth::id())->firstOrFail();
         $cart["detail"] = $cart->detail;
         foreach ($cart->detail as $key => $data) {
-            $cart->detail[$key]["product"] = Product::find($cart->detail[$key]->product_id);
+            $cart->detail[$key]["product"] = Product::where("product_id",$cart->detail[$key]->product_id)->where("isSelling",1)->first();
             $cart->detail[$key]["product"]->price=$data->price;
             $cart->detail[$key]["product"]["images"] = [Product::find($cart->detail[$key]->product_id)->images[0]];
             $cart->detail->makeHidden(["product_id"]);

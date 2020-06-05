@@ -93,8 +93,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-            $products["category"]=$product->category;
-            $products["images"]=$product->images;
+            $product["category"]=$product->category;
+            $product["images"]=$product->images;
             $product["store"]=$product->store;
         return response()->json($product,200);
     }
